@@ -26,7 +26,7 @@ class Human extends Player{
     }
 }
 
-class AI extends Player{
+class ComputerPlayer extends Player{
     constructor() {
     super();
 }
@@ -37,16 +37,67 @@ class AI extends Player{
 
 class Game {
     constructor() {
-        this.playerOne = new Player(this.playerOneName);
-        this.playerTwo = new Player(this.playerTwoName);
-        this.gestures = ['Rock', 'Paper', 'Sissors', 'Lizard', 'Spock'.toLowerCase()];
-        this.gameTries = 3;
+        this.displayRules();
+        this.selectPlayer();
+
+    }
+    
+    
+    displayRules() {
+        console.log("Each player will choose an option: Rock, Paper, Scissors, Lizard, or Spock.");
+        console.log("Rock: crushes Lizard and Scissors.");
+        console.log("Paper: covers rock, disproves Spock.");
+        console.log("Scissors: cuts paper, decaptiates lizard.");
+        console.log("Lizard: poisons Spock, eats Paper.");
+        console.log("Spock: vaporizes Rock, smashes Scissors.");
+        console.log("Challenge your friend or the computer. First to 3 points wins! Ready?");
+        let answer = prompt();
+        if (answer === 'yes') {
+            return game.choosePlayerNumber();
+        } if (answer === 'no') {
+            return this.mainMenu();
+        } else {
+            console.log("Please enter yes to play or no to return to Main Menu.");
+            let answerSecond = prompt();
+            if (answerSecond = 'yes') {
+                return game.choosePlayerNumber();
+            } if (answerSecond = 'no') {
+                return this.mainMenu();
+            }
+        }
+
+    }
+    
+   // this.gestures = ['Rock', 'Paper', 'Sissors', 'Lizard', 'Spock'.toLowerCase()];
      
       
 
-        this.winner = [];
+   selectPlayer(){
+    let select = prompt("Challenge another player or the computer. Enter 1 for computer or 2 for multiplayer");
+    switch(select){
+           case"1":
+           this.playerOne = new Human();
+           this.playerTwo = new ComputerPlayer();
+
+           break;
+
+
+           case"2":
+           this.playerOne = new Human();
+           this.playerTwo = new Human();
+
+           break;
+
+           default:
+            game.selectPlayer();
+           break;
+
+
     }
-        choosePlayerNumber() {
+}
+       // this.winner = [];
+    
+       /*  choosePlayerNumber() {
             let input = console.log('Choose number of players. Enter 1 or 2');
             let inputResponse = prompt();
             if(inputResponse == '1'){
@@ -70,7 +121,7 @@ class Game {
                 }
  
     } 
-
+ */
     mainMenu() {
         console.log("Welcome to Rock, Paper, Scissor, Lizard, Spock!\n\nWould you like to play best of three, see the rules, or quit?\n\nType the option you want: 'play' 'rules' or 'quit.'");
         let choice = prompt().toLowerCase();
@@ -86,22 +137,20 @@ class Game {
         }  
     }
 
-    runGame(player, game) {
+    runGame() {
     this.mainMenu();
 
-    if (this.playerTwoName === 'Computer') {
-        this.computerPlay();
-    } else {
-        this.twoPersonPlay();
+    while (this.playerOne.score < 3 && this.playerTwo.score < 3) {
+        this.mainGame();
+        if (this.playerOne.score === 3 || this.playerTwo.score === 3) {
+            this.displayResults();
+        }
     }
-
-   
-    }
+}
   
     computerPlay() {
      //   this.playerTwo = new Player('Computer');
         console.log("Okay " + this.playerOne + ". You're going head-to-head with the Computer.");
-        if (this.gameTries <= 3) {
         let choice = this.gestures;
         for (let i = 0; i < choice.length; i++) {
         let computerChoice = choice[Math.floor(Math.random()*choice.length)];
@@ -203,9 +252,9 @@ class Game {
             this.computerPlay();
         }
 
-        } 
+        } this.displayWinnerComputerPlay();
         
-    }   this.displayWinnerComputerPlay();
+      
 }
    //Scissors: cuts paper, decaptiates lizard.
 //Paper: covers rock, disproves Spock.
@@ -213,34 +262,8 @@ class Game {
 //Lizard: poisons Spock, eats Paper;
 //Spock: vaporizes Rock, smashes Scissors
 
-    twoPersonPlay() {
+  
 
-    }
-
-    displayRules() {
-        console.log("Each player will choose an option: Rock, Paper, Scissors, Lizard, or Spock.");
-        console.log("Rock: crushes Lizard and Scissors.");
-        console.log("Paper: covers rock, disproves Spock.");
-        console.log("Scissors: cuts paper, decaptiates lizard.");
-        console.log("Lizard: poisons Spock, eats Paper.");
-        console.log("Spock: vaporizes Rock, smashes Scissors.");
-        console.log("Challenge your friend or the computer. First to 3 points wins! Ready?");
-        let answer = prompt();
-        if (answer === 'yes') {
-            return game.choosePlayerNumber();
-        } if (answer === 'no') {
-            return this.mainMenu();
-        } else {
-            console.log("Please enter yes to play or no to return to Main Menu.");
-            let answerSecond = prompt();
-            if (answerSecond = 'yes') {
-                return game.choosePlayerNumber();
-            } if (answerSecond = 'no') {
-                return this.mainMenu();
-            }
-        }
-
-    }
 
     displayWinnerComputerPlay() {
         if (this.playerOne.score === 3) {
@@ -256,6 +279,12 @@ class Game {
     }
 }
 
+class Multigame {
+    constructor() {
+        super();
+    }
+
+}
 let game = new Game();
 game.runGame();
 
