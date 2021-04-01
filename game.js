@@ -12,8 +12,7 @@ class Player {
     constructor(name) {
         this.name = name;
         this.score = 0;
-        this.gestures = ['Rock', 'Paper', 'Sissors', 'Lizard', 'Spock'];
-        this.turn = "";
+      
        
     }
  
@@ -40,6 +39,9 @@ class Game {
     constructor() {
         this.playerOne = new Player(this.playerOneName);
         this.playerTwo = new Player(this.playerTwoName);
+        this.gestures = ['Rock', 'Paper', 'Sissors', 'Lizard', 'Spock'.toLowerCase()];
+        this.gameTries = 3;
+     
       
 
         this.winner = [];
@@ -53,18 +55,18 @@ class Game {
                 console.log("What is your name?");
                 let playerOneName = prompt();
                 this.playerOne = playerOneName;
-                this.playerTwo = 'Computer';
+                this.playerTwoName = 'Computer';
                 game.computerPlay();
          }  else if (input == '2') {
                 this.playerOne = new Human();
                 this.playerTwo = new Human();           
                 let playerOneName = prompt("What is player one's name?");
                 let playerTwoName = prompt("What is player two's name?");
-                this.playerOne.name = playerOneName;
-                this.playerTwo.name = playerTwoName;   
+                this.playerOne = playerOneName;
+                this.playerTwo = playerTwoName;   
                 console.log("Okay " + playerOneName + " . You're going head-to-head with " + playerTwoName + "." );        
         }   else {
-                console.log('Pleae enter 1 or 2 to select number of players.');
+                game.choosePlayerNumber();
                 }
  
     } 
@@ -97,19 +99,119 @@ class Game {
     }
   
     computerPlay() {
-        let choice = this.playerOne.player.gestures;
-        for (let i = 0; i < choice.length; i++);
+     //   this.playerTwo = new Player('Computer');
+        console.log("Okay " + this.playerOne + ". You're going head-to-head with the Computer.");
+        if (this.gameTries <= 3) {
+        let choice = this.gestures;
+        for (let i = 0; i < choice.length; i++) {
         let computerChoice = choice[Math.floor(Math.random()*choice.length)];
-        console.log("Okay " + this.playerOneName + ". You're going head-to-head with the Computer.");
-        console.log("Enter 'r' for Rock, 'p' for Paper, 'sc' for Scissors, 'l' for Lizard or 'sp' for Spock.");
-        let userSelect = prompt();
+        console.log("Enter rock, paper, scissors, or spock to begin.");
+        let userSelect = prompt().toLowerCase();
         if (userSelect === computerChoice) {
-            console.log("It's a tie");
+            console.log("The computer also chose " + computerChoice + ": \nIt's a tie!");
+        } else if (userSelect === 'rock') {
+            if (computerChoice === 'paper') {
+                console.log('Computer chose Paper. Paper covers Rock. You lose!');
+                this.playerTwo.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            } else if (computerChoice === 'scissors') {
+                console.log('Computer chose Scissors. Rock crushes Scissors. You win!');
+                this.playerOne.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            } else if (computerChoice === 'lizard') {
+                console.log('Computer chose Lizard. Rock crushes Lizard. You win!');
+                this.playerOne.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            } else {
+                console.log('Computer chose Spock. Spock vaporizes Rock. You lose!');
+                this.playerTwo.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            }
+        }  else if (userSelect === 'paper') {
+            if (computerChoice === 'rock') {
+                console.log('Computer chose Rock. Paper covers Rock. You win!');
+                this.playerOne.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            } else if(computerChoice === 'scissors') {
+                console.log('Computer chose Scissors. Scissors cut Paper. You lose!');
+                this.playerTwo.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            } else if (computerChoice === 'lizard') {
+                console.log('Computer chose Lizard. Lizard eats Paper. You lose!');
+                this.playerTwo.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            } else {
+                console.log('Computer chose Spock. Paper disproves Spock. You win!');
+                this.playerOneName.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            }
+        }   else if (userSelect === 'scissors') {
+            if (computerChoice === 'rock') {
+                console.log('Computer chose Rock. Rock crushes Scissors. You lose!');
+                this.playerTwo.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            } else if (computerChoice === 'paper') {
+                console.log('Computer chose Paper. Scissors cut Paper. You win!');
+                this.playerOneName.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            } else if (computerChoice === 'lizard') {
+                console.log('Computer chose Lizard. Scissors decapitates Lizard. You win!');
+                this.playerOneName.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            } else {
+                console.log('Computer chose Spock. Spock smashes Scissors. You lose!');
+                this.playerTwo.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            }
+        } else if (userSelect === 'lizard') {
+            if (computerChoice === 'rock') {
+                console.log('Computer chose Rock. Rock crushes Lizard. You lose!');
+                this.playerTwo.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            } else if (computerChoice === 'scissors') {
+                console.log('Computer chose Scissors. Scissors decapitates Lizard. You lose!');
+                this.playerTwo.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            } else if ( computerChoice === 'paper') {
+                console.log('Computer chose Paper. Lizard eats Paper. You win!');
+                this.playerOneName.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            } else {
+                console.log('Computer chose Spock. Lizard poisons Spock. You win!');
+                this.playerOneName.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            } 
+        } else if (userSelect === 'spock') {
+            if (computerChoice === 'rock') {
+                console.log('Computer chose Rock. Spock vaporizes Rock. You win!');
+                this.playerOneName.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            } else if (computerChoice === 'paper') {
+                console.log('Computer chose Paper. Paper disproves Spock. You lose!');
+                this.playerTwo.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            } else if (computerChoice === 'scissors') {
+                console.log('Computer chose Scissors. Spock smashes Scissors. You win.');
+                this.playerOne.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            } else {
+                console.log('Computer chose Lizard. Lizard poisons Spock. You lose!');
+                this.playerTwo.score++;
+                console.log(this.playerOne + ": " + this.playerOne.score + " to " + this.playerTwo + ": " + this.playerTwo.score);
+            }
+        }  if (userSelect != choice[i]) {
+            this.computerPlay();
         }
-        
-    }
 
-   
+        } 
+        
+    }   this.displayWinnerComputerPlay();
+}
+   //Scissors: cuts paper, decaptiates lizard.
+//Paper: covers rock, disproves Spock.
+//Rock: crushes lizard, crushes Scissors.
+//Lizard: poisons Spock, eats Paper;
+//Spock: vaporizes Rock, smashes Scissors
 
     twoPersonPlay() {
 
@@ -122,7 +224,7 @@ class Game {
         console.log("Scissors: cuts paper, decaptiates lizard.");
         console.log("Lizard: poisons Spock, eats Paper.");
         console.log("Spock: vaporizes Rock, smashes Scissors.");
-        console.log("Challenge your friend or the computer. Ready?");
+        console.log("Challenge your friend or the computer. First to 3 points wins! Ready?");
         let answer = prompt();
         if (answer === 'yes') {
             return game.choosePlayerNumber();
@@ -138,6 +240,15 @@ class Game {
             }
         }
 
+    }
+
+    displayWinnerComputerPlay() {
+        if (this.playerOne.score === 3) {
+            console.log("Congratulations " + this.playerOne + ". You win!")
+        } else if (this.playerTwo.score === 3) {
+            console.log("Ouch! That hurts. The Computer kicked butt... But there's always 2 out of 3. Yeah, let's go with that!");
+            console.log('Enjoy your day... if you can!');
+        }
     }
 
     quit() {
